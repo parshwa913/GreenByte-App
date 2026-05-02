@@ -469,21 +469,34 @@ function getButtonLabel(status) {
 }
 
 async function apiRequest(path, options = {}) {
-  const response = await fetch(`${API_BASE_URL}${path}`, {
-    headers: {
-      'Content-Type': 'application/json',
-      ...(options.headers || {})
-    },
-    ...options
-  });
+  try {
+    const url = `${API_BASE_URL}${path}`;
+    console.log('[API Request]', url);
+    
+    const response = await fetch(url, {
+      headers: {
+        'Content-Type': 'application/json',
+        ...(options.headers || {})
+      },
+      ...options
+    });
 
-  const data = await response.json();
+    console.log('[API Response Status]', response.status, response.statusText);
+    
+    const data = await response.json();
+    console.log('[API Response Data]', data);
 
-  if (!response.ok || !data.success) {
-    throw new Error(data.message || 'Something went wrong');
+    if (!response.ok || !data.success) {
+      console.error('[API Error]', data.message || response.statusText);
+      throw new Error(data.message || 'Something went wrong');
+    }
+
+    return data;
+  } catch (error) {
+    console.error('[API Exception]', error.message);
+    console.error('[API Base URL]', API_BASE_URL);
+    throw error;
   }
-
-  return data;
 }
 
 function ScreenShell({ children, isLoginScreen = false }) {
