@@ -1,5 +1,4 @@
 {
-  "buildCommand": "npm run web",
-  "outputDirectory": "dist",
-  "framework": "expo"
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist"
 }
