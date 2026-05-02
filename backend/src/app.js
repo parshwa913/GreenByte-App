@@ -11,6 +11,16 @@ app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 app.use(morgan('dev'));
 
+// Root endpoint
+app.get('/', (req, res) => {
+  res.json({
+    success: true,
+    message: 'GreenByte Backend Successfully Deployed',
+    version: 'v1',
+    apiRoot: '/api/v1'
+  });
+});
+
 app.use('/api/v1', routes);
 
 app.use(notFound);
